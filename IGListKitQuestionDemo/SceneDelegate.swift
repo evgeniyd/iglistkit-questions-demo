@@ -17,14 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
-
-        let questionService = SingleChoiceQuestionServiceAsyncDecorator(decoratee: SingleChoiceQuestionServiceImpl())
-        let refreshController = RefreshQuestionController(service: questionService)
-        let rootViewController = TwoSectionControllersExampleViewController(refreshController: refreshController)
-        refreshController.onRefresh = { [weak rootViewController] question in
-            rootViewController?.pageViewModel = PageViewModelMapper.map(question)
-        }
-        window?.rootViewController = rootViewController
+        
+        window?.rootViewController = ViewControllersFactory.createTwoSectionControllersExampleViewController()
         window?.makeKeyAndVisible()
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import IGListKit
 
-final class ViewController: UIViewController {
+final class TwoSectionControllersExampleViewController: UIViewController {
 
     var pageViewModel: PageViewModel? {
         didSet {
@@ -97,7 +97,7 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: ListAdapterDataSource {
+extension TwoSectionControllersExampleViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
         guard let pageViewModel else {
             return []

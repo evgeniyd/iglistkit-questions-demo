@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let questionService = SingleChoiceQuestionServiceAsyncDecorator(decoratee: SingleChoiceQuestionServiceImpl())
         let refreshController = RefreshQuestionController(service: questionService)
-        let rootViewController = ViewController(refreshController: refreshController)
+        let rootViewController = TwoSectionControllersExampleViewController(refreshController: refreshController)
         refreshController.onRefresh = { [weak rootViewController] question in
             rootViewController?.pageViewModel = PageViewModelMapper.map(question)
         }

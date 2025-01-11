@@ -17,7 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         window = UIWindow(windowScene: windowScene)
-        let rootViewController = ViewController()
+
+        let questionService = SingleChoiceQuestionServiceAsyncDecorator(decoratee: SingleChoiceQuestionServiceImpl())
+        let refreshController = RefreshQuestionController(service: questionService)
+        let rootViewController = ViewController(refreshController: refreshController)
+        refreshController.onRefresh = { [weak rootViewController] question in
+            rootViewController?.pageViewModel = PageViewModelMapper.map(question)
+        }
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
     }

@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5871FD602D3225E2008B3624 /* IGListDiffKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5871FD5F2D3225E2008B3624 /* IGListDiffKit */; };
+		5871FD622D3225E2008B3624 /* IGListKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5871FD612D3225E2008B3624 /* IGListKit */; };
+		5871FD642D3225E2008B3624 /* IGListSwiftKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5871FD632D3225E2008B3624 /* IGListSwiftKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		5871FD3D2D322084008B3624 /* IGListKitQuestionDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IGListKitQuestionDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5871FD602D3225E2008B3624 /* IGListDiffKit in Frameworks */,
+				5871FD622D3225E2008B3624 /* IGListKit in Frameworks */,
+				5871FD642D3225E2008B3624 /* IGListSwiftKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +87,9 @@
 			);
 			name = IGListKitQuestionDemo;
 			packageProductDependencies = (
+				5871FD5F2D3225E2008B3624 /* IGListDiffKit */,
+				5871FD612D3225E2008B3624 /* IGListKit */,
+				5871FD632D3225E2008B3624 /* IGListSwiftKit */,
 			);
 			productName = IGListKitQuestionDemo;
 			productReference = 5871FD3D2D322084008B3624 /* IGListKitQuestionDemo.app */;
@@ -107,6 +119,9 @@
 			);
 			mainGroup = 5871FD342D322084008B3624;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5871FD5E2D3225E2008B3624 /* XCRemoteSwiftPackageReference "IGListKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5871FD3E2D322084008B3624 /* Products */;
 			projectDirPath = "";
@@ -331,6 +346,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5871FD5E2D3225E2008B3624 /* XCRemoteSwiftPackageReference "IGListKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Instagram/IGListKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5871FD5F2D3225E2008B3624 /* IGListDiffKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5871FD5E2D3225E2008B3624 /* XCRemoteSwiftPackageReference "IGListKit" */;
+			productName = IGListDiffKit;
+		};
+		5871FD612D3225E2008B3624 /* IGListKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5871FD5E2D3225E2008B3624 /* XCRemoteSwiftPackageReference "IGListKit" */;
+			productName = IGListKit;
+		};
+		5871FD632D3225E2008B3624 /* IGListSwiftKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5871FD5E2D3225E2008B3624 /* XCRemoteSwiftPackageReference "IGListKit" */;
+			productName = IGListSwiftKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5871FD352D322084008B3624 /* Project object */;
 }

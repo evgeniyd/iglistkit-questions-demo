@@ -12,13 +12,16 @@ final class TwoSectionControllersExampleViewController: UIViewController {
 
     var pageViewModel: PageViewModel? {
         didSet {
-            self.adapter?.reloadData()
+            self.adapter.reloadData()
         }
     }
 
     private let optionCellId = "OptionCellId"
     private let questionCellId = "QuestionCellId"
-    private var adapter: ListAdapter?
+
+    lazy var adapter: ListAdapter = {
+        return ListAdapter(updater: ListAdapterUpdater(), viewController: self)
+    }()
     private let refreshController: RefreshQuestionController
 
     @available(*, unavailable, message: "Use dependency injection or other custom initializers.")
@@ -48,7 +51,6 @@ final class TwoSectionControllersExampleViewController: UIViewController {
 
     private func setupIGListKit() {
         let collectionView = createCollectionView()
-        let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self)
         adapter.collectionView = collectionView
         adapter.dataSource = self
         self.adapter = adapter
@@ -97,11 +99,15 @@ final class TwoSectionControllersExampleViewController: UIViewController {
     }
 }
 
+
+// MARK: - ListAdapterDataSource
+
 extension TwoSectionControllersExampleViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
         guard let pageViewModel else {
             return []
         }
+        // Question + Options are returned as heterogeneous array
         return [pageViewModel.questionViewModel] + pageViewModel.optionViewModels
     }
 
@@ -111,6 +117,7 @@ extension TwoSectionControllersExampleViewController: ListAdapterDataSource {
         } else if object is OptionViewModel {
             return OptionSectionController()
         } else {
+            assert(false, "Unexpected data type that cannot be mapped to a list section controller")
             return ListSectionController()
         }
     }

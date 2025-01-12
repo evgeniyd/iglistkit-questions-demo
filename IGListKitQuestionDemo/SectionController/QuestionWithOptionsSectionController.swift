@@ -8,7 +8,7 @@
 import IGListKit
 import IGListSwiftKit
 
-final class QuestionWithOptionSectionController: ListSectionController, ListSupplementaryViewSource {
+final class QuestionWithOptionsSectionController: ListSectionController, ListSupplementaryViewSource {
 
     private var pageItem: PageViewModel!
 

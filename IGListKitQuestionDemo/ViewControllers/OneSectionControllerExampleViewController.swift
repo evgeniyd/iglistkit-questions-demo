@@ -111,7 +111,7 @@ extension OneSectionControllerExampleViewController: ListAdapterDataSource {
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        return QuestionWithOptionSectionController()
+        return QuestionWithOptionsSectionController()
     }
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {

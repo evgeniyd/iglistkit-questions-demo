@@ -41,7 +41,7 @@ final class ViewControllersFactory {
         let one: () -> UIViewController = {
             let view = UINavigationController(
                 rootViewController: viewController1)
-            view.tabBarItem.title = viewController2.title
+            view.tabBarItem.title = viewController1.title
             return view
         }
 

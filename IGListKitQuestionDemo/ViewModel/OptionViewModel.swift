@@ -26,9 +26,8 @@ extension OptionViewModel: ListDiffable {
     }
 
     func isEqual(toDiffableObject object: (any ListDiffable)?) -> Bool {
-        if let object = object as? OptionViewModel {
-            return self.questionId == object.questionId
-        }
-        return false
+        guard self !== object else { return true }
+        guard let object = object as? OptionViewModel else { return false }
+        return self.questionId == object.questionId && self.title == object.title
     }
 }

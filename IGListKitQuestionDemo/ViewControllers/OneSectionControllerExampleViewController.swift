@@ -1,24 +1,21 @@
 //
-//  ViewController.swift
+//  OneSectionControllerExampleViewController.swift
 //  IGListKitQuestionDemo
 //
-//  Created by Yevhen Dubinin on 1/10/25.
+//  Created by Yevhen Dubinin on 1/11/25.
 //
 
 import UIKit
 import IGListKit
 
-final class TwoSectionControllersExampleViewController: UIViewController {
+final class OneSectionControllerExampleViewController: UIViewController {
 
     var pageViewModel: PageViewModel? {
         didSet {
             self.adapter.reloadData()
         }
     }
-
-    private let optionCellId = "OptionCellId"
-    private let questionCellId = "QuestionCellId"
-
+    
     lazy var adapter: ListAdapter = {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self)
     }()
@@ -40,7 +37,7 @@ final class TwoSectionControllersExampleViewController: UIViewController {
     init(refreshController: RefreshQuestionController) {
         self.refreshController = refreshController
         super.init(nibName: nil, bundle: nil)
-        self.title = "Two"
+        title = "One"
     }
 
     override func viewDidLoad() {
@@ -73,9 +70,6 @@ final class TwoSectionControllersExampleViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 0, right: 0)
 
-        collectionView.register(OptionCell.self, forCellWithReuseIdentifier: optionCellId)
-        collectionView.register(QuestionCell.self, forCellWithReuseIdentifier: questionCellId)
-
         self.view.addSubview(collectionView)
 
         NSLayoutConstraint.activate([
@@ -105,27 +99,19 @@ final class TwoSectionControllersExampleViewController: UIViewController {
     }
 }
 
-
 // MARK: - ListAdapterDataSource
 
-extension TwoSectionControllersExampleViewController: ListAdapterDataSource {
+extension OneSectionControllerExampleViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
         guard let pageViewModel else {
             return []
         }
-        // Question + Options are returned as heterogeneous array
-        return [pageViewModel.questionViewModel] + pageViewModel.optionViewModels
+        // homogeneous array of Page VM
+        return [pageViewModel]
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        if object is QuestionViewModel {
-            return QuestionSectionController()
-        } else if object is OptionViewModel {
-            return OptionSectionController()
-        } else {
-            assert(false, "Unexpected data type that cannot be mapped to a list section controller")
-            return ListSectionController()
-        }
+        return QuestionWithOptionSectionController()
     }
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {

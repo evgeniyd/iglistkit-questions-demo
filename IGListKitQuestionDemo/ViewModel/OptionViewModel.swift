@@ -9,13 +9,15 @@ import IGListKit
 
 final class OptionViewModel {
 
-    init(title: String, questionId: Int) {
+    init(title: String, questionId: Int, selection: @escaping () -> Void) {
         self.title = title
         self.questionId = questionId
+        self.select = selection
     }
 
     let title: String
     let questionId: Int
+    let select: () -> Void
 }
 
 // MARK: - ListDiffable

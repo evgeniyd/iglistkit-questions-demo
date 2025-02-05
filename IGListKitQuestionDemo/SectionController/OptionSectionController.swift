@@ -33,5 +33,7 @@ final class OptionSectionController: ListSectionController {
 
     override func didSelectItem(at index: Int) {
         print(">> Selected: \(vm!.title)")
+
+        vm?.select()
     }
 }

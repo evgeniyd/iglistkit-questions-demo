@@ -16,7 +16,7 @@ final class SingleChoiceQuestionServiceImpl: SingleChoiceQuestionService {
         // Create the options dynamically
         var options: [SingleChoiceQuestion.Option] = []
         for _ in 0..<numberOfOptions {
-            let option = SingleChoiceQuestion.Option(title: generateRandomOption())
+            let option = SingleChoiceQuestion.Option(title: generateRandomOption(), id: Int.random(in: 0...Int.max))
             options.append(option)
         }
 

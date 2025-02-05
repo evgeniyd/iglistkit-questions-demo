@@ -37,6 +37,12 @@ final class QuestionWithOptionsSectionController: ListSectionController, ListSup
         pageItem = object as? PageViewModel
     }
 
+    override func didSelectItem(at index: Int) {
+        print(">> Selected: \(pageItem.optionViewModels[index])")
+
+        pageItem.optionViewModels[index].select()
+    }
+
     // MARK: ListSupplementaryViewSource
 
     func supportedElementKinds() -> [String] {

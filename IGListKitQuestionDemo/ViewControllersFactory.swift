@@ -14,7 +14,9 @@ final class ViewControllersFactory {
         let refreshController = RefreshQuestionController(service: questionService)
         let viewController = TwoSectionControllersExampleViewController(refreshController: refreshController)
         refreshController.onRefresh = { [weak viewController] question in
-            viewController?.pageViewModel = PageViewModelMapper.map(question)
+            viewController?.pageViewModel = PageViewModelMapper.map(question, selection: { option in
+                print("option.id = \(option.id) is selected")
+            })
         }
         return viewController
     }
@@ -24,7 +26,9 @@ final class ViewControllersFactory {
         let refreshController = RefreshQuestionController(service: questionService)
         let viewController = OneSectionControllerExampleViewController(refreshController: refreshController)
         refreshController.onRefresh = { [weak viewController] question in
-            viewController?.pageViewModel = PageViewModelMapper.map(question)
+            viewController?.pageViewModel = PageViewModelMapper.map(question, selection: { option in
+                print("option.id = \(option.id) is selected")
+            })
         }
         return viewController
     }

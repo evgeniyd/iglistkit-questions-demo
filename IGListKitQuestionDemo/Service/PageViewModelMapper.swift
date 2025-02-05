@@ -8,7 +8,21 @@
 final class PageViewModelMapper {
 
     static func map(_ question: SingleChoiceQuestion) -> PageViewModel {
-        let optionVMs = question.options.map { OptionViewModel(title: $0.title, questionId: question.id) }
-        return PageViewModel(questionViewModel: QuestionViewModel(title: question.title, id: question.id), optionViewModels: optionVMs)
+        return PageViewModel(question: question)
+    }
+}
+
+// MARK: - Adapter
+
+extension OptionViewModel {
+    convenience init(option: SingleChoiceQuestion.Option, question: SingleChoiceQuestion) {
+        self.init(title: option.title, questionId: question.id)
+    }
+}
+
+extension PageViewModel {
+    convenience init(question: SingleChoiceQuestion) {
+        self.init(questionViewModel: QuestionViewModel(title: question.title, id: question.id),
+                  optionViewModels: question.options.map { OptionViewModel(option: $0, question: question) })
     }
 }

@@ -13,8 +13,8 @@ Each example also contains a solution of how to communicate back the selection o
 
 # TODO
 
-- [ ] Add error message to `PageViewModel`
-- [ ] Add "Submit" button to both VCs to defer the submission, allowing user to first pick an option, and later submit it
+- [x] Add error message to `PageViewModel`
+- [x] Add "Submit" button to both VCs to defer the submission, allowing user to first pick an option, and later submit it
 - [ ] Implement business logic to record an Answer while user is making a choice
 - [ ] Implement logic of validating the page, after user presses "Submit" button
-- [ ] Display an Error message, when user pressed "Submit" without selecting any of the options 
+- [x] Display an Error message, when user pressed "Submit" without selecting any of the options 

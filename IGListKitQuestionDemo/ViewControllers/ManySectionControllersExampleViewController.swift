@@ -136,6 +136,16 @@ final class ManySectionControllersExampleViewController: UIViewController {
                     self?.adapter.reloadData()
             }
         }
+
+        ctaButton.addTarget(self,
+                            action: #selector(ctaButtonTapped),
+                            for: .touchUpInside)
+    }
+
+    // MARK: - Action Handler
+
+    @objc private func ctaButtonTapped() {
+        pageViewModel.didTapCTA()
     }
 }
 

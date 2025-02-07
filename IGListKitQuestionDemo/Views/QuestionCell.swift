@@ -8,7 +8,7 @@
 import UIKit
 
 final class QuestionCell: UICollectionViewCell {
-    let label: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left // Align text to the left like a header
@@ -18,16 +18,33 @@ final class QuestionCell: UICollectionViewCell {
         return label
     }()
 
+    let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left // Align text to the left like a header
+        label.numberOfLines = 0 // Support multiline text
+        label.lineBreakMode = .byWordWrapping
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline) // Use a bold, larger font
+        label.textColor = .red
+        return label
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .clear // No custom background color
-        contentView.addSubview(label)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(subtitleLabel)
 
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), // Add left padding
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16), // Add right padding
-            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8), // Add top padding
-            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8) // Add bottom padding
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), // Add left padding
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16), // Add right padding
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8), // Add top padding
+        ])
+        NSLayoutConstraint.activate([
+            subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), // Add left padding
+            subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16), // Add right padding
+            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8), // Add top padding
+            subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8) // Add bottom padding
         ])
     }
 
@@ -37,13 +54,15 @@ final class QuestionCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        label.text = nil
+        titleLabel.text = nil
+        subtitleLabel.text = nil
     }
 
     // MARK: - Configuration
 
-    func configure(with text: String) {
-        label.text = text
+    func configure(with title: String, subtitle: String = "") {
+        titleLabel.text = title
+        subtitleLabel.text = subtitle
     }
 }
 

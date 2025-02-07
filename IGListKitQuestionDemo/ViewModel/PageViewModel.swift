@@ -22,4 +22,16 @@ final class PageViewModel {
     }
 
     init() {}
+
+    func didTapCTA() {
+        guard let questionWithOptionsViewModel else {
+            return
+        }
+        if questionWithOptionsViewModel.verify() {
+            self.questionWithOptionsViewModel = nil
+        } else {
+            questionWithOptionsViewModel.errorMessage = "You must select an option!"
+            self.onChangeState?(self, .questionWithOptionsViewModel)
+        }
+    }
 }

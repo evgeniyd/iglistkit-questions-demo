@@ -69,7 +69,7 @@ final class QuestionWithOptionsSectionController: ListSectionController, ListSup
                                                                                     for: self,
                                                                                     class: QuestionCell.self,
                                                                                     at: index) as! QuestionCell
-        view.configure(with: questionWithOptionsItem.questionViewModel.title)
+        view.configure(with: questionWithOptionsItem.questionViewModel.title, subtitle: questionWithOptionsItem.errorMessage)
         return view
     }
 

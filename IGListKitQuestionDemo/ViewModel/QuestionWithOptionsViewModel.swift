@@ -9,13 +9,16 @@ import IGListKit
 
 final class QuestionWithOptionsViewModel {
     
-    init(questionViewModel: QuestionViewModel, optionViewModels: [OptionViewModel]) {
+    init(questionViewModel: QuestionViewModel, optionViewModels: [OptionViewModel], verification: @escaping () -> Bool) {
         self.questionViewModel = questionViewModel
         self.optionViewModels = optionViewModels
+        self.verify = verification
     }
 
     let questionViewModel: QuestionViewModel
     let optionViewModels: [OptionViewModel]
+    let verify: () -> Bool
+    var errorMessage: String = ""
 }
 
 // MARK: - ListDiffable

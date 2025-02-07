@@ -21,6 +21,9 @@ final class ViewControllersFactory {
                 answerService.submitSingleChoiceAnswer(answer) {
                     print("answer \(answer.id) for question id \(answer.questionId) with selected option id \(answer.selectedOptionId) is submitted!")
                 }
+            }, verification: { question in
+                print("verify question: \(question)")
+                return true
             })
         }
         return viewController
@@ -38,6 +41,9 @@ final class ViewControllersFactory {
                 answerService.submitSingleChoiceAnswer(answer) {
                     print("answer \(answer.id) for question id \(answer.questionId) with selected option id \(answer.selectedOptionId) is submitted!")
                 }
+            }, verification: { question in
+                print("verify question: \(question)")
+                return true
             })
         }
         return viewController
@@ -56,6 +62,9 @@ final class ViewControllersFactory {
                 answerService.submitSingleChoiceAnswer(answer) {
                     print("answer \(answer.id) for question id \(answer.questionId) with selected option id \(answer.selectedOptionId) is submitted!")
                 }
+            }, verification: { question in
+                print("verify question: \(question)")
+                return false
             })
         }
         return viewController

@@ -12,12 +12,6 @@ final class ManySectionControllersExampleViewController: UIViewController {
 
     private let pageViewModel: PageViewModel
 
-    var questionWithOptionsViewModel: QuestionWithOptionsViewModel? {
-        didSet {
-            self.adapter.reloadData()
-        }
-    }
-
     lazy var adapter: ListAdapter = {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self)
     }()
@@ -135,6 +129,13 @@ final class ManySectionControllersExampleViewController: UIViewController {
 
     private func bind() {
         ctaButton.setTitle(pageViewModel.submitButtonTitle, for: .normal)
+
+        pageViewModel.onChangeState = { [weak self] viewModel, state in
+            switch state {
+                case .questionWithOptionsViewModel:
+                    self?.adapter.reloadData()
+            }
+        }
     }
 }
 
@@ -142,7 +143,7 @@ final class ManySectionControllersExampleViewController: UIViewController {
 
 extension ManySectionControllersExampleViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
-        guard let questionWithOptionsViewModel else {
+        guard let questionWithOptionsViewModel = pageViewModel.questionWithOptionsViewModel else {
             return []
         }
         // homogeneous array of Page VM

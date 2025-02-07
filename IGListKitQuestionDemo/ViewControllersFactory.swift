@@ -47,9 +47,10 @@ final class ViewControllersFactory {
         let questionService = SingleChoiceQuestionServiceAsyncDecorator(decoratee: SingleChoiceQuestionServiceImpl())
         let answerService = SingleChoiceAnswerServiceAsyncDecorator(decoratee: SingleChoiceAnswerServiceImpl())
         let refreshController = RefreshQuestionController(service: questionService)
-        let viewController = ManySectionControllersExampleViewController(refreshController: refreshController, pageViewModel: PageViewModel())
-        refreshController.onRefresh = { [weak viewController] question in
-            viewController?.questionWithOptionsViewModel = QuestionWithOptionsViewModelMapper.map(question, selection: { option in
+        let pageViewModel = PageViewModel()
+        let viewController = ManySectionControllersExampleViewController(refreshController: refreshController, pageViewModel: pageViewModel)
+        refreshController.onRefresh = { [weak pageViewModel] question in
+            pageViewModel?.questionWithOptionsViewModel = QuestionWithOptionsViewModelMapper.map(question, selection: { option in
                 print("option.id = \(option.id) is selected")
                 let answer = SingleChoiceAnswer(questionId: question.id, selectedOptionId: option.id)
                 answerService.submitSingleChoiceAnswer(answer) {

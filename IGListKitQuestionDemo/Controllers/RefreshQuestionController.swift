@@ -16,7 +16,7 @@ final class RefreshQuestionController {
         self.service = service
     }
 
-    var view: UIView {
+    lazy var view: UIView = {
         let button = UIButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
 
@@ -44,7 +44,7 @@ final class RefreshQuestionController {
         button.addTarget(self, action: #selector(didPressRefreshButton), for: .touchUpInside)
 
         return button
-    }
+    }()
 
     @objc
     private func didPressRefreshButton() {

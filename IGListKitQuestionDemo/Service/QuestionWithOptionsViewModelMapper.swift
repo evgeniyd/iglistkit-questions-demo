@@ -5,10 +5,10 @@
 //  Created by Yevhen Dubinin on 1/11/25.
 //
 
-final class PageViewModelMapper {
+final class QuestionWithOptionsViewModelMapper {
 
-    static func map(_ question: SingleChoiceQuestion, selection: @escaping (SingleChoiceQuestion.Option) -> Void ) -> PageViewModel {
-        return PageViewModel(question: question, selection: selection)
+    static func map(_ question: SingleChoiceQuestion, selection: @escaping (SingleChoiceQuestion.Option) -> Void ) -> QuestionWithOptionsViewModel {
+        return QuestionWithOptionsViewModel(question: question, selection: selection)
     }
 }
 
@@ -20,7 +20,7 @@ extension OptionViewModel {
     }
 }
 
-extension PageViewModel {
+extension QuestionWithOptionsViewModel {
     convenience init(question: SingleChoiceQuestion, selection: @escaping (SingleChoiceQuestion.Option) -> Void) {
         self.init(questionViewModel: QuestionViewModel(title: question.title, id: question.id),
                   optionViewModels: question.options.map { option in

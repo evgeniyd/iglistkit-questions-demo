@@ -1,10 +1,11 @@
 # Intro
 Question Demo using IGListKit
 
-Example of two ways to implement a Single Choice Question Page rendering:
+Example of three ways to implement a Single Choice Question Page rendering:
 
-1) 1 Section Controller + homogeneous array of Page VMs
-2) 2 Section Controllers + heterogeneous array of Question vm and its Options vms
+1) One Section Controller + homogeneous array of Page VMs
+2) Two Section Controllers + heterogeneous array of Question vm and its Options vms
+3) One Section Controller + homogeneous array of Question with Options vms + Page VM that contains those
 
 ![Alt text](./demo_screenshot.png)
 

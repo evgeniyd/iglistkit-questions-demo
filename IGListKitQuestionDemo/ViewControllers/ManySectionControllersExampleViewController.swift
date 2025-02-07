@@ -37,7 +37,7 @@ final class ManySectionControllersExampleViewController: UIViewController {
     init(refreshController: RefreshQuestionController) {
         self.refreshController = refreshController
         super.init(nibName: nil, bundle: nil)
-        title = "One"
+        title = "Many"
     }
 
     override func viewDidLoad() {

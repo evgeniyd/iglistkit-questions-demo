@@ -10,7 +10,7 @@ import IGListKit
 
 final class OneSectionControllerExampleViewController: UIViewController {
 
-    var pageViewModel: PageViewModel? {
+    var pageViewModel: QuestionWithOptionsViewModel? {
         didSet {
             self.adapter.reloadData()
         }

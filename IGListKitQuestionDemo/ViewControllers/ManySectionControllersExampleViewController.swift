@@ -22,6 +22,19 @@ final class ManySectionControllersExampleViewController: UIViewController {
 
     private let refreshController: RefreshQuestionController
 
+    let ctaButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemBlue
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        button.layer.cornerRadius = 10
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private var buttonBottomConstraint: NSLayoutConstraint?
+
     // MARK: - Init
 
     @available(*, unavailable, message: "Use dependency injection or other custom initializers.")
@@ -48,6 +61,9 @@ final class ManySectionControllersExampleViewController: UIViewController {
 
         setupIGListKit()
         setupRefreshButton()
+        view.addSubview(ctaButton)
+
+        setupConstraints()
     }
 
     // MARK: - Private
@@ -66,18 +82,10 @@ final class ManySectionControllersExampleViewController: UIViewController {
         layout.minimumInteritemSpacing = 0
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 0, right: 0)
 
         self.view.addSubview(collectionView)
-
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
 
         return collectionView
     }
@@ -85,17 +93,39 @@ final class ManySectionControllersExampleViewController: UIViewController {
     private func setupRefreshButton() {
         let refreshView = refreshController.view
         self.view.addSubview(refreshView)
-        refreshView.translatesAutoresizingMaskIntoConstraints = false
-
-        // Set up constraints
-        NSLayoutConstraint.activate([
-            refreshView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            refreshView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 8),
-        ])
 
         // Bring button to the front
         self.view.addSubview(refreshView)
         self.view.bringSubviewToFront(refreshView)
+    }
+
+    private func setupConstraints() {
+        buttonBottomConstraint = ctaButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
+        NSLayoutConstraint.activate([
+            ctaButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            ctaButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            ctaButton.heightAnchor.constraint(equalToConstant: 50),
+            buttonBottomConstraint! // Activate the bottom constraint
+        ])
+
+        guard let collectionView = adapter.collectionView else {
+            fatalError("Collection View instance cannot be nil")
+        }
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: ctaButton.topAnchor)
+        ])
+
+        let refreshView = refreshController.view
+        // Set up constraints
+        refreshView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            refreshView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            refreshView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 8),
+        ])
     }
 }
 
@@ -107,7 +137,7 @@ extension ManySectionControllersExampleViewController: ListAdapterDataSource {
             return []
         }
         // homogeneous array of Page VM
-        return [pageViewModel]
+        return [pageViewModel.questionWithOptions]
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {

@@ -7,7 +7,7 @@
 
 import IGListKit
 
-final class QuestionViewModel {
+final class QuestionViewModel: Identifiable {
 
     init(title: String, id: Int) {
         self.title = title

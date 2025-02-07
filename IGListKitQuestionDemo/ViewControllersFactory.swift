@@ -15,7 +15,7 @@ final class ViewControllersFactory {
         let refreshController = RefreshQuestionController(service: questionService)
         let viewController = TwoSectionControllersExampleViewController(refreshController: refreshController)
         refreshController.onRefresh = { [weak viewController] question in
-            viewController?.pageViewModel = PageViewModelMapper.map(question, selection: { option in
+            viewController?.pageViewModel = QuestionWithOptionsViewModelMapper.map(question, selection: { option in
                 print("option.id = \(option.id) is selected")
                 let answer = SingleChoiceAnswer(questionId: question.id, selectedOptionId: option.id)
                 answerService.submitSingleChoiceAnswer(answer) {
@@ -32,7 +32,7 @@ final class ViewControllersFactory {
         let refreshController = RefreshQuestionController(service: questionService)
         let viewController = OneSectionControllerExampleViewController(refreshController: refreshController)
         refreshController.onRefresh = { [weak viewController] question in
-            viewController?.pageViewModel = PageViewModelMapper.map(question, selection: { option in
+            viewController?.pageViewModel = QuestionWithOptionsViewModelMapper.map(question, selection: { option in
                 print("option.id = \(option.id) is selected")
                 let answer = SingleChoiceAnswer(questionId: question.id, selectedOptionId: option.id)
                 answerService.submitSingleChoiceAnswer(answer) {
@@ -49,13 +49,15 @@ final class ViewControllersFactory {
         let refreshController = RefreshQuestionController(service: questionService)
         let viewController = ManySectionControllersExampleViewController(refreshController: refreshController)
         refreshController.onRefresh = { [weak viewController] question in
-            viewController?.pageViewModel = PageViewModelMapper.map(question, selection: { option in
+            let questionWithOptionsViewModel = QuestionWithOptionsViewModelMapper.map(question, selection: { option in
                 print("option.id = \(option.id) is selected")
                 let answer = SingleChoiceAnswer(questionId: question.id, selectedOptionId: option.id)
                 answerService.submitSingleChoiceAnswer(answer) {
                     print("answer \(answer.id) for question id \(answer.questionId) with selected option id \(answer.selectedOptionId) is submitted!")
                 }
             })
+
+            viewController?.pageViewModel = PageViewModel(questionWithOptions: questionWithOptionsViewModel)
         }
         return viewController
     }

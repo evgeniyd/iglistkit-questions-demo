@@ -10,7 +10,7 @@ import IGListKit
 
 final class TwoSectionControllersExampleViewController: UIViewController {
 
-    var pageViewModel: PageViewModel? {
+    var pageViewModel: QuestionWithOptionsViewModel? {
         didSet {
             self.adapter.reloadData()
         }

@@ -10,7 +10,7 @@ import IGListSwiftKit
 
 final class QuestionWithOptionsSectionController: ListSectionController, ListSupplementaryViewSource {
 
-    private var pageItem: PageViewModel!
+    private var questionWithOptionsItem: QuestionWithOptionsViewModel!
 
     override init() {
         super.init()
@@ -20,7 +20,7 @@ final class QuestionWithOptionsSectionController: ListSectionController, ListSup
     // MARK: IGListSectionController Overrides
 
     override func numberOfItems() -> Int {
-        return pageItem.optionViewModels.count
+        return questionWithOptionsItem.optionViewModels.count
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
@@ -29,18 +29,16 @@ final class QuestionWithOptionsSectionController: ListSectionController, ListSup
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell: OptionCell = collectionContext.dequeueReusableCell(for: self, at: index)
-        cell.configure(with: pageItem.optionViewModels[index].title)
+        cell.configure(with: questionWithOptionsItem.optionViewModels[index].title)
         return cell
     }
 
     override func didUpdate(to object: Any) {
-        pageItem = object as? PageViewModel
+        questionWithOptionsItem = object as? QuestionWithOptionsViewModel
     }
 
     override func didSelectItem(at index: Int) {
-        print(">> Selected: \(pageItem.optionViewModels[index])")
-
-        pageItem.optionViewModels[index].select()
+        questionWithOptionsItem.optionViewModels[index].select()
     }
 
     // MARK: ListSupplementaryViewSource
@@ -69,7 +67,7 @@ final class QuestionWithOptionsSectionController: ListSectionController, ListSup
                                                                                     for: self,
                                                                                     class: QuestionCell.self,
                                                                                     at: index) as! QuestionCell
-        view.configure(with: pageItem.questionViewModel.title)
+        view.configure(with: questionWithOptionsItem.questionViewModel.title)
         return view
     }
 }

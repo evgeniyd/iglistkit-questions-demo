@@ -44,13 +44,15 @@ final class QuestionWithOptionsSectionController: ListSectionController, ListSup
     // MARK: ListSupplementaryViewSource
 
     func supportedElementKinds() -> [String] {
-        return [UICollectionView.elementKindSectionHeader]
+        return [UICollectionView.elementKindSectionHeader, UICollectionView.elementKindSectionFooter]
     }
 
     func viewForSupplementaryElement(ofKind elementKind: String, at index: Int) -> UICollectionReusableView {
         switch elementKind {
             case UICollectionView.elementKindSectionHeader:
-                return userHeaderView(atIndex: index)
+                return questionHeaderView(atIndex: index)
+            case UICollectionView.elementKindSectionFooter:
+                return emptyFooterView(atIndex: index)
             default:
                 fatalError()
         }
@@ -62,12 +64,20 @@ final class QuestionWithOptionsSectionController: ListSectionController, ListSup
 
     // MARK: - Private
 
-    private func userHeaderView(atIndex index: Int) -> UICollectionReusableView {
+    private func questionHeaderView(atIndex index: Int) -> UICollectionReusableView {
         let view: QuestionCell = collectionContext.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
                                                                                     for: self,
                                                                                     class: QuestionCell.self,
                                                                                     at: index) as! QuestionCell
         view.configure(with: questionWithOptionsItem.questionViewModel.title)
+        return view
+    }
+
+    private func emptyFooterView(atIndex index: Int) -> UICollectionReusableView {
+        let view: SpacerCell = collectionContext.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter,
+                                                                                    for: self,
+                                                                                    class: SpacerCell.self,
+                                                                                    at: index) as! SpacerCell
         return view
     }
 }

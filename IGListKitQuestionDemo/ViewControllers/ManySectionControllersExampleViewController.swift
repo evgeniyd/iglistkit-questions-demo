@@ -10,7 +10,9 @@ import IGListKit
 
 final class ManySectionControllersExampleViewController: UIViewController {
 
-    var pageViewModel: PageViewModel? {
+    private let pageViewModel: PageViewModel
+
+    var questionWithOptionsViewModel: QuestionWithOptionsViewModel? {
         didSet {
             self.adapter.reloadData()
         }
@@ -47,8 +49,9 @@ final class ManySectionControllersExampleViewController: UIViewController {
         fatalError()
     }
 
-    init(refreshController: RefreshQuestionController) {
+    init(refreshController: RefreshQuestionController, pageViewModel: PageViewModel) {
         self.refreshController = refreshController
+        self.pageViewModel = pageViewModel
         super.init(nibName: nil, bundle: nil)
         title = "Many"
     }
@@ -64,6 +67,8 @@ final class ManySectionControllersExampleViewController: UIViewController {
         view.addSubview(ctaButton)
 
         setupConstraints()
+
+        bind()
     }
 
     // MARK: - Private
@@ -127,17 +132,21 @@ final class ManySectionControllersExampleViewController: UIViewController {
             refreshView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 8),
         ])
     }
+
+    private func bind() {
+        ctaButton.setTitle(pageViewModel.submitButtonTitle, for: .normal)
+    }
 }
 
 // MARK: - ListAdapterDataSource
 
 extension ManySectionControllersExampleViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
-        guard let pageViewModel else {
+        guard let questionWithOptionsViewModel else {
             return []
         }
         // homogeneous array of Page VM
-        return [pageViewModel.questionWithOptions]
+        return [questionWithOptionsViewModel]
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {

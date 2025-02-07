@@ -10,7 +10,7 @@ import IGListKit
 
 final class OneSectionControllerExampleViewController: UIViewController {
 
-    var pageViewModel: QuestionWithOptionsViewModel? {
+    var questionWithOptionsViewModel: QuestionWithOptionsViewModel? {
         didSet {
             self.adapter.reloadData()
         }
@@ -103,11 +103,11 @@ final class OneSectionControllerExampleViewController: UIViewController {
 
 extension OneSectionControllerExampleViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
-        guard let pageViewModel else {
+        guard let questionWithOptionsViewModel else {
             return []
         }
         // homogeneous array of Page VM
-        return [pageViewModel]
+        return [questionWithOptionsViewModel]
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {

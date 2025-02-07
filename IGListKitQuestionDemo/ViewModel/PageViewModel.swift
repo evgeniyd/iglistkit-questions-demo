@@ -9,25 +9,7 @@ import IGListKit
 
 final class PageViewModel {
 
-    let title = "Many"
-    let ctaTitle = "Submit"
-    let questionWithOptions: QuestionWithOptionsViewModel
+    let submitButtonTitle = "Submit"
 
-    init(questionWithOptions: QuestionWithOptionsViewModel) {
-        self.questionWithOptions = questionWithOptions
-    }
-}
-
-// MARK: - ListDiffable
-
-extension PageViewModel: ListDiffable {
-    func diffIdentifier() -> any NSObjectProtocol {
-        return questionWithOptions.questionViewModel.id as NSObjectProtocol
-    }
-
-    func isEqual(toDiffableObject object: (any ListDiffable)?) -> Bool {
-        guard self !== object else { return true }
-        guard let object = object as? QuestionWithOptionsViewModel else { return false }
-        return questionWithOptions.isEqual(toDiffableObject: object)
-    }
+    init() {}
 }

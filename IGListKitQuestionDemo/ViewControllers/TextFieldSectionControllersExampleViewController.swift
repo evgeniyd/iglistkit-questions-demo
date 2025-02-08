@@ -48,6 +48,8 @@ final class TextFieldSectionControllersExampleViewController: UIViewController {
         title = "Text"
     }
 
+    // MARK: - View Lyfecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -58,6 +60,20 @@ final class TextFieldSectionControllersExampleViewController: UIViewController {
         view.addSubview(ctaButton)
 
         setupConstraints()
+
+        setupKeyboardDismissal()
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        addKeyboardObservers()
+    }
+
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        removeKeyboardObserver()
     }
 
     // MARK: - Private
@@ -103,6 +119,78 @@ final class TextFieldSectionControllersExampleViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: ctaButton.topAnchor)
         ])
+    }
+
+    private func setupKeyboardDismissal() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    // MARK - Keyboard
+
+    private func addKeyboardObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func dismissKeyboard() {
+        // This resigns the first responder for all input views
+        view.endEditing(true)
+    }
+
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+              let animationCurveValue = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else {
+            return
+        }
+        let keyboardHeight = keyboardFrame.height
+
+        // Update the button's bottom constraint to align above the keyboard
+        buttonBottomConstraint?.constant = -keyboardHeight - 8 + view.safeAreaInsets.bottom
+
+        UIView.animate(withDuration: animationDuration, delay: 0, options: UIView.AnimationOptions(rawValue: animationCurveValue)) {
+            self.view.layoutIfNeeded()
+        } completion: { [adapter, textFieldViewModel] completed in
+            guard completed else { return }
+
+            adapter.scroll(to: textFieldViewModel,
+                           supplementaryKinds: nil,
+                           scrollDirection: .vertical,
+                           scrollPosition: .top,
+                           additionalOffset: 0.0,
+                           animated: true)
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        guard
+            let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+            let animationCurveValue = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else
+        {
+            return
+        }
+
+        buttonBottomConstraint?.constant = -20
+
+        guard let collectionView = adapter.collectionView else {
+            fatalError("Collection View instance cannot be nil")
+        }
+
+        collectionView.contentInset.bottom = 0
+        collectionView.verticalScrollIndicatorInsets.bottom = 0
+
+        UIView.animate(withDuration: animationDuration,
+                       delay: 0,
+                       options: UIView.AnimationOptions(rawValue: animationCurveValue))
+        {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 

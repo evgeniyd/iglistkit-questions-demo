@@ -1,5 +1,5 @@
 //
-//  PageViewModel.swift
+//  MCQViewModel.swift
 //  IGListKitQuestionDemo
 //
 //  Created by Yevhen Dubinin on 2/6/25.
@@ -7,12 +7,12 @@
 
 import Foundation
 
-final class PageViewModel {
+final class MCQViewModel {
 
     enum State {
         case questionWithOptionsViewModel
     }
-    var onChangeState: ((PageViewModel, State) -> Void)?
+    var onChangeState: ((MCQViewModel, State) -> Void)?
 
     let submitButtonTitle = "Submit"
     var questionWithOptionsViewModel: QuestionWithOptionsViewModel? {

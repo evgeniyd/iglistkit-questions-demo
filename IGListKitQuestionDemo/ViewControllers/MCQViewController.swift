@@ -10,7 +10,7 @@ import IGListKit
 
 final class MCQViewController: UIViewController {
 
-    private let pageViewModel: PageViewModel
+    private let pageViewModel: MCQViewModel
 
     lazy var adapter: ListAdapter = {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self)
@@ -43,7 +43,7 @@ final class MCQViewController: UIViewController {
         fatalError()
     }
 
-    init(refreshController: RefreshQuestionController, pageViewModel: PageViewModel) {
+    init(refreshController: RefreshQuestionController, pageViewModel: MCQViewModel) {
         self.refreshController = refreshController
         self.pageViewModel = pageViewModel
         super.init(nibName: nil, bundle: nil)

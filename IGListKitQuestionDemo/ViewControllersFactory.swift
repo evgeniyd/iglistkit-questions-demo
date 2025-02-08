@@ -70,7 +70,13 @@ final class ViewControllersFactory {
         return viewController
     }
 
-    static func createTabBar(viewController1: UIViewController, viewController2: UIViewController, viewController3: UIViewController) -> UITabBarController {
+    static func createTextFieldSectionControllersExampleViewController() -> UIViewController {
+        let pageViewModel = TextFieldViewModel(placeholder: "Enter text here")
+        let viewController = TextFieldSectionControllersExampleViewController(textFieldViewModel: pageViewModel)
+        return viewController
+    }
+
+    static func createTabBar(viewController1: UIViewController, viewController2: UIViewController, viewController3: UIViewController, viewController4: UIViewController) -> UITabBarController {
 
         let two: () -> UIViewController = {
             let view = UINavigationController(
@@ -93,8 +99,15 @@ final class ViewControllersFactory {
             return view
         }
 
+        let four: () -> UIViewController = {
+            let view = UINavigationController(
+                rootViewController: viewController4)
+            view.tabBarItem.title = viewController4.title
+            return view
+        }
+
         let tabBar = UITabBarController()
-        tabBar.viewControllers = [one(), two(), three()]
+        tabBar.viewControllers = [one(), two(), three(), four()]
         return tabBar
     }
 }

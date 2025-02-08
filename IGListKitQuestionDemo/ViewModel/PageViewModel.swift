@@ -5,7 +5,7 @@
 //  Created by Yevhen Dubinin on 2/6/25.
 //
 
-import IGListKit
+import Foundation
 
 final class PageViewModel {
 

@@ -11,7 +11,7 @@ import IGListKit
 
 final class SAViewController: UIViewController {
 
-    private let textFieldViewModel: TextFieldViewModel
+    private let pageViewModel: SAViewModel
 
     lazy var adapter: ListAdapter = {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self)
@@ -42,8 +42,8 @@ final class SAViewController: UIViewController {
         fatalError()
     }
 
-    init(textFieldViewModel: TextFieldViewModel) {
-        self.textFieldViewModel = textFieldViewModel
+    init(pageViewModel: SAViewModel) {
+        self.pageViewModel = pageViewModel
         super.init(nibName: nil, bundle: nil)
         title = "Text"
     }
@@ -157,10 +157,10 @@ final class SAViewController: UIViewController {
 
         UIView.animate(withDuration: animationDuration, delay: 0, options: UIView.AnimationOptions(rawValue: animationCurveValue)) {
             self.view.layoutIfNeeded()
-        } completion: { [adapter, textFieldViewModel] completed in
+        } completion: { [adapter, pageViewModel] completed in
             guard completed else { return }
 
-            adapter.scroll(to: textFieldViewModel,
+            adapter.scroll(to: pageViewModel.textViewViewModel,
                            supplementaryKinds: nil,
                            scrollDirection: .vertical,
                            scrollPosition: .top,
@@ -199,11 +199,11 @@ final class SAViewController: UIViewController {
 
 extension SAViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
-        return [textFieldViewModel]
+        return [pageViewModel.textViewViewModel]
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        return TextFieldSectionController()
+        return TextViewSectionController()
     }
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {

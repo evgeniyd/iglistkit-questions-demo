@@ -31,8 +31,8 @@ final class ViewControllersFactory {
     }
 
     static func createTextFieldSectionControllersExampleViewController() -> UIViewController {
-        let pageViewModel = TextFieldViewModel(title: "First Name", placeholder: "Enter text here")
-        let viewController = SAViewController(textFieldViewModel: pageViewModel)
+        let pageViewModel = SAViewModel(textViewViewModel: TextViewViewModel(title: "Tell your story", placeholder: "Enter text here"))
+        let viewController = SAViewController(pageViewModel: pageViewModel)
         return viewController
     }
 

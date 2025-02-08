@@ -19,7 +19,7 @@ final class TextFieldSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext!.dequeueReusableCell(of: TextFieldCell.self, for: self, at: index) as! TextFieldCell
-        cell.configure(placeholder: vm!.placeholder)
+        cell.configure(title: vm!.title, placeholder: vm!.placeholder)
         cell.contentView.backgroundColor = .systemBackground
         return cell
     }

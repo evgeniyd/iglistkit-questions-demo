@@ -149,6 +149,7 @@ final class TextFieldSectionControllersExampleViewController: UIViewController {
               let animationCurveValue = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else {
             return
         }
+
         let keyboardHeight = keyboardFrame.height
 
         // Update the button's bottom constraint to align above the keyboard
@@ -176,7 +177,7 @@ final class TextFieldSectionControllersExampleViewController: UIViewController {
             return
         }
 
-        buttonBottomConstraint?.constant = -20
+        buttonBottomConstraint?.constant = -8
 
         guard let collectionView = adapter.collectionView else {
             fatalError("Collection View instance cannot be nil")

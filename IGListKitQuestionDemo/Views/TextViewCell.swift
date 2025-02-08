@@ -1,13 +1,13 @@
 //
-//  TextFieldCell.swift
+//  TextViewCell.swift
 //  IGListKitQuestionDemo
 //
-//  Created by Yevhen Dubinin on 2/7/25.
+//  Created by Yevhen Dubinin on 2/8/25.
 //
 
 import UIKit
 
-final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
+final class TextViewCell: UICollectionViewCell, UITextViewDelegate {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -20,23 +20,22 @@ final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
         return label
     }()
 
-    private let textField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.layer.borderColor = UIColor.gray.cgColor
-        textField.layer.borderWidth = 1.0
-        textField.layer.cornerRadius = 8.0
-        textField.clipsToBounds = true
+    private let textField: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.layer.borderColor = UIColor.gray.cgColor
+        textView.layer.borderWidth = 1.0
+        textView.layer.cornerRadius = 8.0
+        textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        textView.font = UIFont.systemFont(ofSize: 16)
+        return textView
+    }()
 
-        // Enable the clear button to appear while editing
-        textField.clearButtonMode = .whileEditing
-
-        // Optional: Add left padding for better text positioning
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: textField.frame.height))
-        textField.leftView = paddingView
-        textField.leftViewMode = .always
-
-        return textField
+    private let placeholderLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
 
     private let subtitleLabel: UILabel = {
@@ -56,6 +55,7 @@ final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
+        textField.addSubview(placeholderLabel)
         contentView.addSubview(subtitleLabel)
 
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
@@ -70,6 +70,10 @@ final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
             textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), // Add left padding
             textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16), // Add right padding
             textField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8), // Add top padding
+        ])
+        NSLayoutConstraint.activate([
+            placeholderLabel.topAnchor.constraint(equalTo: textField.topAnchor, constant: 8),
+            placeholderLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 12)
         ])
         NSLayoutConstraint.activate([
             subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), // Add left padding
@@ -96,16 +100,14 @@ final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
     func configure(title: String, placeholder: String, errorMessage: String = "", text: String? = nil) {
         titleLabel.text = title
         textField.text = text
-        textField.placeholder = placeholder
+        placeholderLabel.text = placeholder
         subtitleLabel.text = errorMessage
     }
 
-    // MARK: - UITextFieldDelegate
+    // MARK: - UITextViewDelegate
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let currentText = textField.text {
-            print("Entire updated text: \(currentText)")
-        }
-        return true
+    func textViewDidChange(_ textView: UITextView) {
+        print("text: \(textView.text ?? "")")
+        placeholderLabel.isHidden = !textView.text.isEmpty
     }
 }

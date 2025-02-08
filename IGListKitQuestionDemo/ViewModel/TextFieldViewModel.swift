@@ -9,8 +9,10 @@ import IGListKit
 
 final class TextFieldViewModel {
     let placeholder: String
+    let title: String
 
-    init(placeholder: String) {
+    init(title: String, placeholder: String) {
+        self.title = title
         self.placeholder = placeholder
     }
 }
@@ -19,12 +21,12 @@ final class TextFieldViewModel {
 
 extension TextFieldViewModel: ListDiffable {
     func diffIdentifier() -> any NSObjectProtocol {
-        return NSString(string: placeholder)
+        return NSString(string: title+placeholder)
     }
 
     func isEqual(toDiffableObject object: (any ListDiffable)?) -> Bool {
         guard self !== object else { return true }
         guard let object = object as? TextFieldViewModel else { return false }
-        return self.placeholder == object.placeholder
+        return self.placeholder == object.placeholder && self.title == object.title
     }
 }

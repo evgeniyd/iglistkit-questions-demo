@@ -62,6 +62,8 @@ final class SAViewController: UIViewController {
         setupConstraints()
 
         setupKeyboardDismissal()
+
+        bind()
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -124,6 +126,10 @@ final class SAViewController: UIViewController {
     private func setupKeyboardDismissal() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+    }
+
+    private func bind() {
+        ctaButton.setTitle(pageViewModel.submitButtonTitle, for: .normal)
     }
 
     // MARK - Keyboard

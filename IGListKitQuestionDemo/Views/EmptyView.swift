@@ -39,10 +39,8 @@ final class NoDataView: UIView {
 
         // Constraints
         NSLayoutConstraint.activate([
-            messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             messageLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            messageLabel.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -16)
+            messageLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }
 

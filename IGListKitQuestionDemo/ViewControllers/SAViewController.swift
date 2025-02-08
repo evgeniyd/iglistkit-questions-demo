@@ -45,7 +45,7 @@ final class SAViewController: UIViewController {
     init(pageViewModel: SAViewModel) {
         self.pageViewModel = pageViewModel
         super.init(nibName: nil, bundle: nil)
-        title = "Text"
+        title = self.pageViewModel.title
     }
 
     // MARK: - View Lyfecycle

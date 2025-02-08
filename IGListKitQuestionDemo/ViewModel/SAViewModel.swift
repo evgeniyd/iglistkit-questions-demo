@@ -9,6 +9,7 @@ import Foundation
 
 final class SAViewModel {
 
+    let title = "SA"
     let submitButtonTitle = "Submit"
     let textViewViewModel: TextViewViewModel
 

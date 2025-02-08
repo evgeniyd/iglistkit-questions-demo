@@ -18,9 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(windowScene: windowScene)
 
-        window?.rootViewController = ViewControllersFactory.createTabBar(viewController1: ViewControllersFactory.createOneSectionControllerExampleViewController(),
-                                                                         viewController2:ViewControllersFactory.createManySectionControllerExampleViewController(),
-                                                                         viewController3: ViewControllersFactory.createTextFieldSectionControllersExampleViewController())
+        window?.rootViewController = ViewControllersFactory.createTabBar(viewController1:ViewControllersFactory.createManySectionControllerExampleViewController(),
+                                                                         viewController2: ViewControllersFactory.createTextFieldSectionControllersExampleViewController())
         window?.makeKeyAndVisible()
     }
 }

@@ -1,5 +1,5 @@
 //
-//  ManySectionControllersExampleViewController.swift
+//  MCQViewController.swift
 //  IGListKitQuestionDemo
 //
 //  Created by Yevhen Dubinin on 2/6/25.
@@ -8,7 +8,7 @@
 import UIKit
 import IGListKit
 
-final class ManySectionControllersExampleViewController: UIViewController {
+final class MCQViewController: UIViewController {
 
     private let pageViewModel: PageViewModel
 
@@ -47,7 +47,7 @@ final class ManySectionControllersExampleViewController: UIViewController {
         self.refreshController = refreshController
         self.pageViewModel = pageViewModel
         super.init(nibName: nil, bundle: nil)
-        title = "Many"
+        title = "MCQ"
     }
 
     override func viewDidLoad() {
@@ -151,7 +151,7 @@ final class ManySectionControllersExampleViewController: UIViewController {
 
 // MARK: - ListAdapterDataSource
 
-extension ManySectionControllersExampleViewController: ListAdapterDataSource {
+extension MCQViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
         guard let questionWithOptionsViewModel = pageViewModel.questionWithOptionsViewModel else {
             return []

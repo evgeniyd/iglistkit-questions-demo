@@ -32,7 +32,7 @@ final class ViewControllersFactory {
 
     static func createTextFieldSectionControllersExampleViewController() -> UIViewController {
         let pageViewModel = TextFieldViewModel(title: "First Name", placeholder: "Enter text here")
-        let viewController = TextFieldSectionControllersExampleViewController(textFieldViewModel: pageViewModel)
+        let viewController = SAViewController(textFieldViewModel: pageViewModel)
         return viewController
     }
 

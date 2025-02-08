@@ -1,5 +1,5 @@
 //
-//  TextFieldSectionControllersExampleViewController.swift
+//  SAViewController.swift
 //  IGListKitQuestionDemo
 //
 //  Created by Yevhen Dubinin on 2/7/25.
@@ -9,7 +9,7 @@
 import UIKit
 import IGListKit
 
-final class TextFieldSectionControllersExampleViewController: UIViewController {
+final class SAViewController: UIViewController {
 
     private let textFieldViewModel: TextFieldViewModel
 
@@ -197,7 +197,7 @@ final class TextFieldSectionControllersExampleViewController: UIViewController {
 
 // MARK: - ListAdapterDataSource
 
-extension TextFieldSectionControllersExampleViewController: ListAdapterDataSource {
+extension SAViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
         return [textFieldViewModel]
     }

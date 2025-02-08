@@ -11,7 +11,7 @@ final class OptionCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
-            contentView.backgroundColor = isSelected ? UIColor.systemBlue : UIColor.secondarySystemBackground
+            pillView.backgroundColor = isSelected ? .systemBlue : .secondarySystemBackground
         }
     }
 
@@ -22,25 +22,43 @@ final class OptionCell: UICollectionViewCell {
         return label
     }()
 
+    let pillView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        // Configure the appearance
+        view.backgroundColor = .secondarySystemBackground
+        view.layer.borderColor = UIColor.systemGray.cgColor // Border color
+        view.layer.borderWidth = 1 // 1px border
+        view.layer.masksToBounds = true // Ensure the rounded corners are applied
+        return view
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        // Configure the appearance
-        contentView.backgroundColor = .secondarySystemBackground
-        contentView.layer.borderColor = UIColor.systemGray.cgColor // Border color
-        contentView.layer.borderWidth = 1 // 1px border
-        contentView.layer.cornerRadius = 20 // Default radius for pill shape
-        contentView.layer.masksToBounds = true // Ensure the rounded corners are applied
+        // Add background view
+        contentView.addSubview(pillView)
 
         // Add the label
         contentView.addSubview(label)
 
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+            label.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 8),
+            label.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -8),
+            label.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 4),
+            label.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -4),
+            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
+
+        NSLayoutConstraint.activate([
+            pillView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            pillView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            pillView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+            pillView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+        ])
+
+        pillView.setNeedsDisplay()
     }
 
     required init?(coder: NSCoder) {
@@ -50,6 +68,12 @@ final class OptionCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         label.text = nil
+    }
+
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+
+        pillView.layer.cornerRadius = pillView.bounds.height / 2.0
     }
 
     // MARK: - Configuration

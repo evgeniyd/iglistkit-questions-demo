@@ -9,7 +9,7 @@ import UIKit
 
 final class ViewControllersFactory {
 
-    static func createManySectionControllerExampleViewController() -> UIViewController {
+    static func createMCQViewController() -> UIViewController {
         let questionService = SingleChoiceQuestionServiceAsyncDecorator(decoratee: SingleChoiceQuestionServiceImpl())
         let answerService = SingleChoiceAnswerServiceAsyncDecorator(decoratee: SingleChoiceAnswerServiceImpl())
         let refreshController = RefreshQuestionController(service: questionService)
@@ -30,7 +30,7 @@ final class ViewControllersFactory {
         return viewController
     }
 
-    static func createTextFieldSectionControllersExampleViewController() -> UIViewController {
+    static func createSAViewController() -> UIViewController {
         let pageViewModel = SAViewModel(textViewViewModel: TextViewViewModel(title: "Tell your story", placeholder: "Enter text here"))
         let viewController = SAViewController(pageViewModel: pageViewModel)
         return viewController

@@ -27,7 +27,7 @@ final class TextViewSectionController: ListSectionController {
     }
 
     override func sizeForItem(at index: Int) -> CGSize {
-        return CGSize(width: collectionContext!.containerSize.width-10, height: 120)
+        return CGSize(width: collectionContext!.containerSize.width-10, height: 140)
     }
 
     override func didUpdate(to object: Any) {

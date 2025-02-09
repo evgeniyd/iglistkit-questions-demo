@@ -1,17 +1,16 @@
 //
-//  SAViewController.swift
+//  ContactInfoViewController.swift
 //  IGListKitQuestionDemo
 //
-//  Created by Yevhen Dubinin on 2/7/25.
+//  Created by Yevhen Dubinin on 2/8/25.
 //
-
 
 import UIKit
 import IGListKit
 
-final class SAViewController: UIViewController {
+final class ContactInfoViewController: UIViewController {
 
-    private let pageViewModel: SAViewModel
+    private let pageViewModel: ContactInfoViewModel
 
     lazy var adapter: ListAdapter = {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self)
@@ -42,7 +41,7 @@ final class SAViewController: UIViewController {
         fatalError()
     }
 
-    init(pageViewModel: SAViewModel) {
+    init(pageViewModel: ContactInfoViewModel) {
         self.pageViewModel = pageViewModel
         super.init(nibName: nil, bundle: nil)
         title = self.pageViewModel.title
@@ -95,7 +94,8 @@ final class SAViewController: UIViewController {
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        collectionView.keyboardDismissMode = .onDrag
 
         self.view.addSubview(collectionView)
 
@@ -130,18 +130,6 @@ final class SAViewController: UIViewController {
 
     private func bind() {
         ctaButton.setTitle(pageViewModel.submitButtonTitle, for: .normal)
-
-        pageViewModel.onChangeState = { [weak self] _, state in
-            switch state {
-                case .textViewViewModel:
-                    self?.adapter.reloadData()
-                    break
-            }
-        }
-
-        ctaButton.addTarget(self,
-                            action: #selector(ctaButtonTapped),
-                            for: .touchUpInside)
     }
 
     // MARK - Keyboard
@@ -175,15 +163,6 @@ final class SAViewController: UIViewController {
 
         UIView.animate(withDuration: animationDuration, delay: 0, options: UIView.AnimationOptions(rawValue: animationCurveValue)) {
             self.view.layoutIfNeeded()
-        } completion: { [adapter, pageViewModel] completed in
-            guard completed else { return }
-
-            adapter.scroll(to: pageViewModel.textViewViewModel,
-                           supplementaryKinds: nil,
-                           scrollDirection: .vertical,
-                           scrollPosition: .top,
-                           additionalOffset: 0.0,
-                           animated: true)
         }
     }
 
@@ -221,13 +200,13 @@ final class SAViewController: UIViewController {
 
 // MARK: - ListAdapterDataSource
 
-extension SAViewController: ListAdapterDataSource {
+extension ContactInfoViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [any ListDiffable] {
-        return [pageViewModel.textViewViewModel]
+        return pageViewModel.contactInfoViewModels
     }
 
     func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
-        return TextViewSectionController()
+        return TextFieldSectionController()
     }
 
     func emptyView(for listAdapter: ListAdapter) -> UIView? {

@@ -40,7 +40,31 @@ final class ViewControllersFactory {
         return viewController
     }
 
-    static func createTabBar(viewController1: UIViewController, viewController2: UIViewController) -> UITabBarController {
+    static func createContactInfoViewController() -> UIViewController {
+        let questionsProvider = ContactInfoFormProviderImpl()
+        var contactInfoViewModels: [TextFieldViewModel] = []
+        questionsProvider.getContactInfoForm { contactInfoForm in
+            contactInfoViewModels = [
+                contactInfoForm.firstName,
+                contactInfoForm.lastName,
+                contactInfoForm.city,
+                contactInfoForm.email,
+                contactInfoForm.phone,
+                contactInfoForm.address,
+                contactInfoForm.zipCode,
+                contactInfoForm.state,
+                contactInfoForm.country
+            ].compactMap { question in
+                guard let question = question else { return nil }
+                return TextFieldViewModel(title: question.title, placeholder: question.placeholder)
+            }
+        }
+        let vm = ContactInfoViewModel(contactInfoViewModels: contactInfoViewModels)
+        let viewController = ContactInfoViewController(pageViewModel: vm)
+        return viewController
+    }
+
+    static func createTabBar(viewController1: UIViewController, viewController2: UIViewController, viewController3: UIViewController) -> UITabBarController {
 
         let one: () -> UIViewController = {
             let view = UINavigationController(
@@ -56,8 +80,15 @@ final class ViewControllersFactory {
             return view
         }
 
+        let three: () -> UIViewController = {
+            let view = UINavigationController(
+                rootViewController: viewController3)
+            view.tabBarItem.title = viewController3.title
+            return view
+        }
+
         let tabBar = UITabBarController()
-        tabBar.viewControllers = [one(), two()]
+        tabBar.viewControllers = [one(), two(), three()]
         return tabBar
     }
 }

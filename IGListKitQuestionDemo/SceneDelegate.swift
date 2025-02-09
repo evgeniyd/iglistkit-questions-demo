@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         window?.rootViewController = ViewControllersFactory.createTabBar(viewController1:ViewControllersFactory.createMCQViewController(),
-                                                                         viewController2: ViewControllersFactory.createSAViewController())
+                                                                         viewController2: ViewControllersFactory.createSAViewController(), viewController3: ViewControllersFactory.createContactInfoViewController())
         window?.makeKeyAndVisible()
     }
 }

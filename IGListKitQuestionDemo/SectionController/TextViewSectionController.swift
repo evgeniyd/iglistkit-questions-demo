@@ -19,7 +19,9 @@ final class TextViewSectionController: ListSectionController {
 
     override func cellForItem(at index: Int) -> UICollectionViewCell {
         let cell = collectionContext!.dequeueReusableCell(of: TextViewCell.self, for: self, at: index) as! TextViewCell
-        cell.configure(title: vm!.title, placeholder: vm!.placeholder)
+        cell.configure(title: vm!.title, placeholder: vm!.placeholder, errorMessage: vm!.errorMessage, text: vm!.text) { [weak self] text in
+            self?.vm?.didChange(text)
+        }
         cell.contentView.backgroundColor = .systemBackground
         return cell
     }

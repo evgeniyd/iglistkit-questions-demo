@@ -49,6 +49,8 @@ final class TextViewCell: UICollectionViewCell, UITextViewDelegate {
         return label
     }()
 
+    private var onTextDidChange: ((String) -> Void)?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .clear // No custom background color
@@ -97,17 +99,25 @@ final class TextViewCell: UICollectionViewCell, UITextViewDelegate {
 
     // MARK: - Configuration
 
-    func configure(title: String, placeholder: String, errorMessage: String = "", text: String? = nil) {
+    func configure(title: String, placeholder: String, errorMessage: String = "", text: String?, textDidChange: ((String) -> Void)?) {
         titleLabel.text = title
         textField.text = text
         placeholderLabel.text = placeholder
         subtitleLabel.text = errorMessage
+        self.onTextDidChange = textDidChange
+
+        if errorMessage.isEmpty {
+            textField.layer.borderColor = UIColor.gray.cgColor
+        } else {
+            textField.layer.borderColor = UIColor.red.cgColor
+        }
+        textField.setNeedsDisplay()
     }
 
     // MARK: - UITextViewDelegate
 
     func textViewDidChange(_ textView: UITextView) {
-        print("text: \(textView.text ?? "")")
         placeholderLabel.isHidden = !textView.text.isEmpty
+        onTextDidChange?(textView.text)
     }
 }

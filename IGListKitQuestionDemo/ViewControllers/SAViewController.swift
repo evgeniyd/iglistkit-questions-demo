@@ -130,6 +130,18 @@ final class SAViewController: UIViewController {
 
     private func bind() {
         ctaButton.setTitle(pageViewModel.submitButtonTitle, for: .normal)
+
+        pageViewModel.onChangeState = { [weak self] _, state in
+            switch state {
+                case .textViewViewModel:
+                    self?.adapter.reloadData()
+                    break
+            }
+        }
+
+        ctaButton.addTarget(self,
+                            action: #selector(ctaButtonTapped),
+                            for: .touchUpInside)
     }
 
     // MARK - Keyboard
@@ -198,6 +210,12 @@ final class SAViewController: UIViewController {
         {
             self.view.layoutIfNeeded()
         }
+    }
+
+    // MARK: - Action Handler
+
+    @objc private func ctaButtonTapped() {
+        pageViewModel.didTapCTA()
     }
 }
 

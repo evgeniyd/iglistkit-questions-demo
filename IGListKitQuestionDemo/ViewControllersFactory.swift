@@ -32,7 +32,10 @@ final class ViewControllersFactory {
 
     static func createSAViewController() -> UIViewController {
         let question = ShortTextQuestion(title: "Tell your story", placeholder: "Enter text here", id: Int.random(in: 0...Int.max))
-        let pageViewModel = SAViewModel(textViewViewModel: TextViewViewModel(shortTextQuestion: question))
+        let pageViewModel = SAViewModel(textViewViewModel: TextViewViewModel(shortTextQuestion: question)) { text in
+            guard let text else { return false }
+            return !text.isEmpty
+        }
         let viewController = SAViewController(pageViewModel: pageViewModel)
         return viewController
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
+final class TextFieldCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -50,6 +50,9 @@ final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
         return label
     }()
 
+    /// A layout guide that reserves space for the subtitle area regardless of whether any text is set.
+    private let subtitleSpaceGuide = UILayoutGuide()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .clear // No custom background color
@@ -57,6 +60,7 @@ final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
         contentView.addSubview(subtitleLabel)
+        contentView.addLayoutGuide(subtitleSpaceGuide)
 
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
         textField.setContentHuggingPriority(.defaultLow, for: .vertical)
@@ -64,21 +68,28 @@ final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), // Add left padding
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16), // Add right padding
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8), // Add top padding
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4), // Add top padding
         ])
         NSLayoutConstraint.activate([
             textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), // Add left padding
             textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16), // Add right padding
             textField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8), // Add top padding
         ])
+        // Layout guide constraints for the subtitle area:
         NSLayoutConstraint.activate([
-            subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16), // Add left padding
-            subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16), // Add right padding
-            subtitleLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8), // Add top padding
-            subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8) // Add bottom padding
+            subtitleSpaceGuide.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            subtitleSpaceGuide.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            subtitleSpaceGuide.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 4),
+            subtitleSpaceGuide.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            // Reserve at least 16 points of height
+            subtitleSpaceGuide.heightAnchor.constraint(greaterThanOrEqualToConstant: 16)
         ])
-
-        textField.delegate = self
+        NSLayoutConstraint.activate([
+            subtitleLabel.leadingAnchor.constraint(equalTo: subtitleSpaceGuide.leadingAnchor),
+            subtitleLabel.trailingAnchor.constraint(equalTo: subtitleSpaceGuide.trailingAnchor),
+            subtitleLabel.topAnchor.constraint(equalTo: subtitleSpaceGuide.topAnchor),
+            subtitleLabel.bottomAnchor.constraint(equalTo: subtitleSpaceGuide.bottomAnchor)
+        ])
     }
 
     required init?(coder: NSCoder) {
@@ -88,24 +99,19 @@ final class TextFieldCell: UICollectionViewCell, UITextFieldDelegate {
     override func prepareForReuse() {
         super.prepareForReuse()
         textField.text = nil
+        textField.placeholder = nil
         subtitleLabel.text = nil
     }
 
     // MARK: - Configuration
 
-    func configure(title: String, placeholder: String, errorMessage: String = "", text: String? = nil) {
+    func configure(title: String,
+                   placeholder: String,
+                   errorMessage: String = "",
+                   text: String? = nil) {
         titleLabel.text = title
         textField.text = text
         textField.placeholder = placeholder
         subtitleLabel.text = errorMessage
-    }
-
-    // MARK: - UITextFieldDelegate
-
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let currentText = textField.text {
-            print("Entire updated text: \(currentText)")
-        }
-        return true
     }
 }
